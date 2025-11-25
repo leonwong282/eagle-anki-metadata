@@ -5,13 +5,13 @@
     "arch": "all",
     "name": "Eagle Anki Metadata",
     "logo": "/logo.png",
-    "keywords": [],
+    "keywords": ["anki", "apkg", "flashcard", "deck", "metadata"],
     "devTools": true,
     "preview": {
-        "jpg,png": {
+        "apkg": {
             "inspector": {
                 "path": "index.html",
-                "height": 100,
+                "height": 350,
                 "multiSelect": false
             }
         }

@@ -1,61 +1,462 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="UTF-8">
-    <title>Inspector Plugin Example</title>
-    <style>
-        html {
-            font-size: 11px;
-            font-family: sans-serif;
-            border-radius: 6px;
-            overflow: hidden;
-        }
-
-        body {
-            padding: 0;
-            margin: 0;
-            color: transparent;
-        }
-
-        /* colors for different themes */
-
-        body[theme="LIGHT"],
-        body[theme="LIGHTGRAY"] {
-            color: black;
-        }
-
-        body[theme="GRAY"],
-        body[theme="BLUE"],
-        body[theme="PURPLE"],
-        body[theme="DARK"] {
-            color: white;
-        }
-    </style>
+    <title>Anki Deck Metadata</title>
+    <link rel="stylesheet" href="styles/inspector.css">
 </head>
-
 <body>
-    Inspector Plugin Example
-    <script>
-        // Listen to plugin creation
-        eagle.onPluginCreate(async (plugin) => {
+    <div id="app" class="container">
+        <div class="loading">
+            <div class="spinner"></div>
+            Loading deck metadata...
+        </div>
+    </div>
 
-            // Get the current theme
-            const theme = await eagle.app.theme;
+    <!-- Dependencies -->
+    <script src="lib/jszip.min.js"></script>
+    <script src="lib/sql-wasm.js"></script>
+    <script src="lib/anki-parser.js"></script>
+
+    <script>
+        // Global state
+        let currentTheme = 'LIGHT';
+        let db = null;
+
+        /**
+         * Apply theme to body element
+         * Eagle themes: LIGHT, LIGHTGRAY, GRAY, DARK, BLUE, PURPLE, AUTO
+         */
+        function applyTheme(theme) {
+            currentTheme = theme;
             document.body.setAttribute('theme', theme);
 
-            // Get the selected item
-            const item = await eagle.item.getSelected();
+            // Determine color scheme (light vs dark) for each theme
+            // GRAY, BLUE, PURPLE are dark themes in Eagle
+            const darkThemes = ['DARK', 'GRAY', 'BLUE', 'PURPLE'];
+            const lightThemes = ['LIGHT', 'LIGHTGRAY'];
 
-            console.log(item);
-            console.log(theme);
+            if (theme === 'AUTO') {
+                // Handle AUTO theme with system preference detection
+                const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                document.body.setAttribute('data-system-theme', isDark ? 'dark' : 'light');
+                document.body.setAttribute('data-color-scheme', isDark ? 'dark' : 'light');
+            } else if (darkThemes.includes(theme)) {
+                document.body.setAttribute('data-color-scheme', 'dark');
+                document.body.removeAttribute('data-system-theme');
+            } else {
+                document.body.setAttribute('data-color-scheme', 'light');
+                document.body.removeAttribute('data-system-theme');
+            }
+        }
+
+        /**
+         * Show error message in UI
+         */
+        function showError(title, message, suggestion = '') {
+            const app = document.getElementById('app');
+            app.innerHTML = `
+                <div class="error">
+                    <div class="error-title">${title}</div>
+                    <div class="error-message">${message}</div>
+                    ${suggestion ? `<div class="error-suggestion">${suggestion}</div>` : ''}
+                </div>
+            `;
+        }
+
+        /**
+         * Show warning message
+         */
+        function showWarning(message) {
+            const app = document.getElementById('app');
+            const warning = document.createElement('div');
+            warning.className = 'warning';
+            warning.textContent = message;
+            app.insertBefore(warning, app.firstChild);
+        }
+
+        /**
+         * Render metadata UI - Eagle-native style
+         */
+        function renderMetadata(metadata, item) {
+            const app = document.getElementById('app');
+
+            // Check for large file
+            if (item.size > 100 * 1024 * 1024) { // 100MB
+                const sizeMB = (item.size / (1024 * 1024)).toFixed(1);
+                showWarning(`Large deck file (${sizeMB}MB). Parsing may be slow.`);
+            }
+
+            // Format display name (remove extension)
+            const displayName = item.name.replace(/\.apkg$/i, '');
+
+            // Build HTML - Eagle native inspector style
+            let html = `
+                <div class="header">
+                    <div class="header-title">${displayName}</div>
+                    <div class="header-subtitle">${AnkiParser.formatFileSize(item.size)} • Schema v${metadata.schema} • ${AnkiParser.formatDate(metadata.modified)}</div>
+                </div>
+            `;
+
+            // Deck Summary Section
+            if (metadata.decks && metadata.decks.length > 0) {
+                html += `
+                    <div class="section" id="section-decks">
+                        <div class="section-header" onclick="toggleSection('decks')">
+                            <span class="section-title">Deck Summary</span>
+                            <span class="section-chevron">▾</span>
+                        </div>
+                        <div class="section-content">
+                `;
+
+                metadata.decks.forEach(deck => {
+                    html += `
+                        <div class="deck-item">
+                            <div class="deck-header">
+                                <span class="deck-name">${deck.name}</span>
+                                ${deck.isDynamic ? '<span class="deck-badge">Dynamic</span>' : ''}
+                            </div>
+                            ${deck.description ? `<div class="deck-description">${deck.description}</div>` : ''}
+                            <div class="property-row indented">
+                                <span class="property-label">New</span>
+                                <span class="property-value new">${deck.newCards.toLocaleString()}</span>
+                            </div>
+                            <div class="property-row indented">
+                                <span class="property-label">Learning</span>
+                                <span class="property-value learning">${deck.learningCards.toLocaleString()}</span>
+                            </div>
+                            <div class="property-row indented">
+                                <span class="property-label">Review</span>
+                                <span class="property-value review">${deck.reviewCards.toLocaleString()}</span>
+                            </div>
+                            <div class="property-row indented">
+                                <span class="property-label">Total</span>
+                                <span class="property-value">${deck.totalCards.toLocaleString()}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                html += `
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Note Types Section
+            if (metadata.models && metadata.models.length > 0) {
+                html += `
+                    <div class="section" id="section-models">
+                        <div class="section-header" onclick="toggleSection('models')">
+                            <span class="section-title">Note Types</span>
+                            <span class="section-chevron">▾</span>
+                        </div>
+                        <div class="section-content">
+                `;
+
+                metadata.models.forEach(model => {
+                    html += `
+                        <div class="note-type-item">
+                            <div class="note-type-header">
+                                <span class="note-type-name">${model.name}</span>
+                                <span class="note-type-count">${model.noteCount} note${model.noteCount !== 1 ? 's' : ''}</span>
+                            </div>
+                            <div class="note-type-info">${model.fieldCount} field${model.fieldCount !== 1 ? 's' : ''} • ${model.templateCount} template${model.templateCount !== 1 ? 's' : ''}</div>
+                        </div>
+                    `;
+                });
+
+                html += `
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Tags Section
+            if (metadata.tags && metadata.tags.length > 0) {
+                const maxTags = 15;
+                const displayTags = metadata.tags.slice(0, maxTags);
+                const remainingCount = metadata.tags.length - maxTags;
+
+                html += `
+                    <div class="section" id="section-tags">
+                        <div class="section-header" onclick="toggleSection('tags')">
+                            <span class="section-title">Tags</span>
+                            <span class="section-chevron">▾</span>
+                        </div>
+                        <div class="section-content">
+                            <div class="tags-list">
+                `;
+
+                displayTags.forEach(tag => {
+                    html += `<span class="tag">${tag.tag}</span>`;
+                });
+
+                if (remainingCount > 0) {
+                    html += `<span class="tags-more"> and ${remainingCount} more</span>`;
+                }
+
+                html += `
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Statistics Section
+            if (metadata.statistics) {
+                const stats = metadata.statistics;
+                html += `
+                    <div class="section" id="section-stats">
+                        <div class="section-header" onclick="toggleSection('stats')">
+                            <span class="section-title">Statistics</span>
+                            <span class="section-chevron">▾</span>
+                        </div>
+                        <div class="section-content">
+                            <div class="property-row">
+                                <span class="property-label">Total Notes</span>
+                                <span class="property-value">${stats.totalNotes.toLocaleString()}</span>
+                            </div>
+                            <div class="property-row">
+                                <span class="property-label">Total Cards</span>
+                                <span class="property-value">${stats.totalCards.toLocaleString()}</span>
+                            </div>
+                            <div class="property-row">
+                                <span class="property-label">Created</span>
+                                <span class="property-value">${AnkiParser.formatDate(metadata.created)}</span>
+                            </div>
+                            ${stats.averageEase ? `
+                            <div class="property-row">
+                                <span class="property-label">Avg. Ease</span>
+                                <span class="property-value">${stats.averageEase}%</span>
+                            </div>
+                            ` : ''}
+                            <div class="property-row">
+                                <span class="property-label">New Cards</span>
+                                <span class="property-value new">${stats.cardDistribution.new.toLocaleString()}</span>
+                            </div>
+                            <div class="property-row">
+                                <span class="property-label">Learning</span>
+                                <span class="property-value learning">${stats.cardDistribution.learning.toLocaleString()}</span>
+                            </div>
+                            <div class="property-row">
+                                <span class="property-label">Review</span>
+                                <span class="property-value review">${stats.cardDistribution.review.toLocaleString()}</span>
+                            </div>
+                            <div class="property-row">
+                                <span class="property-label">Relearning</span>
+                                <span class="property-value">${stats.cardDistribution.relearning.toLocaleString()}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            app.innerHTML = html;
+        }
+
+        /**
+         * Toggle section collapsed state
+         */
+        function toggleSection(sectionId) {
+            const section = document.getElementById(`section-${sectionId}`);
+            if (section) {
+                section.classList.toggle('collapsed');
+            }
+        }
+
+        /**
+         * Load and parse .apkg file
+         */
+        async function loadApkgFile(filePath) {
+            try {
+                const fs = require('fs');
+                const fzstd = require('fzstd');
+
+                // Read .apkg file (it's a ZIP archive)
+                const fileBuffer = fs.readFileSync(filePath);
+
+                // Extract ZIP contents
+                const zip = await JSZip.loadAsync(fileBuffer);
+
+                // List all files in the archive for debugging
+                console.log('=== FILES IN APKG ===');
+                const fileList = [];
+                zip.forEach((relativePath, file) => {
+                    console.log(`  ${relativePath} (${file.dir ? 'DIR' : 'FILE'})`);
+                    fileList.push(relativePath);
+                });
+
+                // Determine Anki version format
+                // Anki 24.x+ uses: collection.anki21b (new format, zstd compressed)
+                // Anki 2.1.x uses: collection.anki2 (legacy format)
+                // Anki 2.0.x uses: collection.anki2 (old format)
+
+                let collectionFile = null;
+                let isNewFormat = false;
+                let isZstdCompressed = false;
+
+                // Try new format first (Anki 24.x+)
+                if (zip.file('collection.anki21b')) {
+                    collectionFile = zip.file('collection.anki21b');
+                    isNewFormat = true;
+                    isZstdCompressed = true;  // anki21b files are zstd compressed
+                    console.log('Detected Anki 24.x+ format (collection.anki21b) - zstd compressed');
+                } else if (zip.file('collection.anki2')) {
+                    collectionFile = zip.file('collection.anki2');
+                    isNewFormat = false;
+                    console.log('Detected Anki 2.x format (collection.anki2)');
+                }
+
+                if (!collectionFile) {
+                    // List what we found
+                    throw new Error('No collection database found. Files in archive: ' + fileList.join(', '));
+                }
+
+                // Extract collection database
+                let dbData = await collectionFile.async('uint8array');
+                console.log('Raw data size:', dbData.length, 'bytes');
+
+                // Decompress if zstd compressed (Anki 24.x+ format)
+                if (isZstdCompressed) {
+                    console.log('Decompressing zstd data...');
+                    try {
+                        dbData = fzstd.decompress(dbData);
+                        console.log('Decompressed database size:', dbData.length, 'bytes');
+                    } catch (decompressError) {
+                        console.error('Zstd decompression failed:', decompressError);
+                        throw new Error('Failed to decompress Anki 24.x+ database. The file may be corrupted.');
+                    }
+                }
+
+                console.log('Database size:', dbData.length, 'bytes');
+
+                // Initialize sql.js
+                const SQL = await initSqlJs({
+                    locateFile: file => `lib/${file}`
+                });
+
+                // Load database
+                db = new SQL.Database(dbData);
+
+                // List all tables in the database
+                console.log('=== DATABASE TABLES ===');
+                const tables = db.exec("SELECT name FROM sqlite_master WHERE type='table'");
+                const tableNames = [];
+                if (tables.length) {
+                    tables[0].values.forEach(row => {
+                        tableNames.push(row[0]);
+                        console.log('  Table:', row[0]);
+                        try {
+                            const count = db.exec(`SELECT COUNT(*) FROM "${row[0]}"`);
+                            console.log('    Rows:', count[0]?.values[0]?.[0]);
+                        } catch (e) {
+                            console.log('    Error counting:', e.message);
+                        }
+                    });
+                }
+
+                // Detect schema type based on tables present
+                const hasNotetypes = tableNames.includes('notetypes');
+                const hasCol = tableNames.includes('col');
+                const hasDecks = tableNames.includes('decks');
+
+                console.log('Schema detection:', { hasNotetypes, hasCol, hasDecks, isNewFormat });
+
+                // Parse metadata based on schema
+                let metadata;
+                if (hasNotetypes || hasDecks) {
+                    // New Anki 24.x+ schema
+                    console.log('Using new schema parser (Anki 24.x+)');
+                    metadata = AnkiParser.parseNewSchemaMetadata(db);
+                } else if (hasCol) {
+                    // Legacy Anki 2.1.x schema
+                    console.log('Using legacy schema parser (Anki 2.1.x)');
+                    metadata = AnkiParser.parseAnkiMetadata(db);
+                } else {
+                    throw new Error('Unknown database schema. Tables: ' + tableNames.join(', '));
+                }
+
+                console.log('=== PARSED METADATA ===', metadata);
+
+                return metadata;
+
+            } catch (error) {
+                console.error('Error loading .apkg file:', error);
+                throw error;
+            }
+        }
+
+        /**
+         * Main initialization
+         */
+        eagle.onPluginCreate(async (plugin) => {
+            try {
+                // Get current theme
+                const theme = await eagle.app.theme;
+                applyTheme(theme);
+
+                // Get selected items (returns array)
+                const items = await eagle.item.getSelected();
+
+                if (!items || items.length === 0) {
+                    showError('No File Selected', 'Please select an .apkg file to view metadata.');
+                    return;
+                }
+
+                // Get first selected item
+                const item = items[0];
+
+                // Validate file extension
+                if (item.ext !== 'apkg') {
+                    showError(
+                        'Invalid File Type',
+                        `Selected file is not a valid Anki deck file (.apkg).`,
+                        `File extension: .${item.ext}`
+                    );
+                    return;
+                }
+
+                // Load and parse file
+                const metadata = await loadApkgFile(item.filePath);
+
+                // Render UI
+                renderMetadata(metadata, item);
+
+                // Cleanup
+                if (db) {
+                    db.close();
+                    db = null;
+                }
+
+            } catch (error) {
+                console.error('=== PLUGIN ERROR ===');
+                console.error('Error message:', error.message);
+                console.error('Error stack:', error.stack);
+                console.error('Full error:', error);
+
+                // Always show detailed error for debugging
+                showError(
+                    'Error Parsing Deck',
+                    error.message || 'An unknown error occurred while parsing the deck.',
+                    'Check Developer Tools console (Ctrl+Shift+I or Cmd+Opt+I) for details.'
+                );
+            }
         });
 
         // Listen to theme changes
         eagle.onThemeChanged((theme) => {
-            document.body.setAttribute('theme', theme);
+            applyTheme(theme);
+        });
+
+        // Listen to system theme changes (for AUTO mode)
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            if (currentTheme === 'AUTO') {
+                const isDark = e.matches;
+                document.body.setAttribute('data-system-theme', isDark ? 'dark' : 'light');
+                document.body.setAttribute('data-color-scheme', isDark ? 'dark' : 'light');
+            }
         });
     </script>
 </body>
-
 </html>
