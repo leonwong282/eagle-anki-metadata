@@ -16,6 +16,7 @@
     <!-- Dependencies -->
     <script src="lib/jszip.min.js"></script>
     <script src="lib/sql-wasm.js"></script>
+    <script src="lib/fzstd.min.js"></script>
     <script src="lib/anki-parser.js"></script>
 
     <script>
@@ -271,7 +272,6 @@
         async function loadApkgFile(filePath) {
             try {
                 const fs = require('fs');
-                const fzstd = require('fzstd');
 
                 // Read .apkg file (it's a ZIP archive)
                 const fileBuffer = fs.readFileSync(filePath);

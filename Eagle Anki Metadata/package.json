@@ -4,8 +4,11 @@
   "description": "Eagle Inspector extension for displaying Anki .apkg deck metadata",
   "private": true,
   "scripts": {
-    "install": "npm run bundle",
-    "bundle": "mkdir -p lib && cp node_modules/jszip/dist/jszip.min.js lib/ && cp node_modules/sql.js/dist/sql-wasm.js lib/ && cp node_modules/sql.js/dist/sql-wasm.wasm lib/"
+    "postinstall": "npm run bundle",
+    "bundle": "mkdir -p lib && cp node_modules/jszip/dist/jszip.min.js lib/ && cp node_modules/sql.js/dist/sql-wasm.js lib/ && cp node_modules/sql.js/dist/sql-wasm.wasm lib/",
+    "build": "node scripts/build.js",
+    "build:zip": "npm run build && cd ../dist && zip -r \"Eagle Anki Metadata.eagleplugin.zip\" \"Eagle Anki Metadata.eagleplugin\" && echo '✅ Created Eagle Anki Metadata.eagleplugin.zip'",
+    "clean": "rm -rf ../dist"
   },
   "keywords": [
     "eagle",

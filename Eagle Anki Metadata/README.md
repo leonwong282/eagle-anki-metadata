@@ -88,17 +88,49 @@ npm install
 # The postinstall script automatically copies library files to lib/
 ```
 
+### Build for Distribution
+
+```bash
+# Build clean distribution package
+npm run build
+
+# Build and create .zip archive for Eagle
+npm run build:zip
+
+# Clean build output
+npm run clean
+```
+
+The build script creates a clean `dist/Eagle Anki Metadata.eagleplugin/` folder containing only the necessary files for distribution (~865KB).
+
+**Distribution files:**
+- `manifest.json` - Plugin configuration
+- `index.html` - Main entry point
+- `logo.png` - Plugin icon
+- `README.md` - Documentation
+- `lib/` - Bundled dependencies (jszip, sql.js, fzstd)
+- `styles/` - CSS styles
+
+**To install the built plugin in Eagle:**
+1. Run `npm run build:zip` to create the archive
+2. Rename `Eagle Anki Metadata.eagleplugin.zip` to `Eagle Anki Metadata.eagleplugin`
+3. Double-click to install in Eagle
+
 ### Project Structure
 
 ```
 Eagle Anki Metadata/
 ├── manifest.json          # Plugin configuration
-├── package.json           # npm dependencies
+├── package.json           # npm dependencies & build scripts
 ├── index.html             # Inspector UI (main entry point)
+├── logo.png               # Plugin icon (128x128)
+├── scripts/
+│   └── build.js           # Build script for distribution
 ├── lib/
 │   ├── sql-wasm.js        # sql.js WebAssembly loader
 │   ├── sql-wasm.wasm      # SQLite WebAssembly binary
 │   ├── jszip.min.js       # ZIP extraction library
+│   ├── fzstd.min.js       # Zstd decompression (for Anki 24.x+)
 │   └── anki-parser.js     # Metadata extraction logic
 ├── styles/
 │   └── inspector.css      # Theme-aware styles
