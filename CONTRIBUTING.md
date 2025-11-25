@@ -8,7 +8,7 @@ This project and everyone participating in it is governed by our [Code of Conduc
 
 ### Before Contributing
 
-1. Check if there's already an [issue](https://github.com/leonwong282/awesome-project-template/issues) for your contribution
+1. Check if there's already an [issue](https://github.com/leonwong282/eagle-anki-metadata/issues) for your contribution
 2. For major changes, please open an issue first to discuss what you would like to change
 3. Make sure your contribution aligns with the project's goals and roadmap
 

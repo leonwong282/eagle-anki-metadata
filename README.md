@@ -2,232 +2,187 @@
 
 <div align="center">
 
-<a href="https://github.com/leonwong282/awesome-project-template">
+<a href="https://github.com/leonwong282/eagle-anki-metadata">
   <img src="images/logo.png" alt="Logo" width="80" height="80">
 </a>
 
-# 🚀 Awesome Project Template
+# 📚 Eagle Anki Metadata
 
-> A modern, beautiful, and well-structured open source project template
+> An Eagle Inspector extension that displays Anki deck metadata directly within Eagle
 
 ![Version](https://img.shields.io/badge/Version-1.0.0-blue?style=for-the-badge)
-![License](https://img.shields.io/badge/License-GPL--3.0-red?style=for-the-badge)
-![Template](https://img.shields.io/badge/Template-Ready-green?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+![Eagle](https://img.shields.io/badge/Eagle-4.0%2B-orange?style=for-the-badge)
 ![Platform](https://img.shields.io/badge/Platform-Cross--Platform-purple?style=for-the-badge)
-![Stars](https://img.shields.io/github/stars/leonwong282/awesome-project-template?style=for-the-badge&color=yellow)
 
 [🌍 English](README.md) | [🇹🇼 繁體中文](README.zh-TW.md) 
 
-[Features](#-features) • [Quick-Start](#-quick-start) • [Usage](#-usage) • [Contributing](#-contributing)
+[Features](#-features) • [Installation](#-installation) • [Usage](#-usage) • [Development](#-development) • [Contributing](#-contributing)
 
 </div>
 
 ## 📸 Preview
 
+<!-- TODO: Add screenshots -->
+*Screenshots coming soon*
+
 ## ✨ Features
 
-- 🎯 **Modern Tech Stack**: React 18 + TypeScript + Vite for blazing-fast development
-- 🗄️ **Database Templates**: Ready-to-use SQL schemas for PostgreSQL, MySQL, and SQLite
-- � **Documentation-First**: Comprehensive guides for users and contributors
-- 🤝 **GitHub Integration**: Issue templates, PR templates, and community health files
-- � **Code Quality**: ESLint, Prettier, and EditorConfig for consistent code style
-- � **Multi-Language**: Template structure supports internationalization
-- � **Migration System**: Database migration templates with best practices
-- 🌱 **Seed Data**: Development and test data for quick project setup
+- 📚 **Deck Summary** - View deck names, card counts (new/learning/review), and descriptions
+- 📝 **Note Types** - See all note types with field and template counts  
+- 🏷️ **Tags** - Browse tags with usage counts
+- 📊 **Statistics** - Total notes, total cards, creation date, average ease factor
+- 🎨 **Theme-Aware** - Supports all Eagle themes (LIGHT, LIGHTGRAY, GRAY, BLUE, PURPLE, DARK, AUTO)
+- ⚡ **Fast Parsing** - Metadata extraction in <2 seconds for typical decks
+- 🔒 **Safe** - Read-only metadata viewer with no file modifications
+- 🌐 **Cross-Platform** - Works on macOS, Windows, and Linux
+- 📦 **Anki 24.x+ Support** - Handles new zstd-compressed database format
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: React 18, TypeScript, Vite
-- **Database**: PostgreSQL, MySQL, SQLite (templates included)
-- **Code Quality**: ESLint, Prettier, EditorConfig
-- **Documentation**: Comprehensive markdown guides
-- **Community**: GitHub templates, Code of Conduct, Contributing guidelines
-- **License**: GPL-3.0 (open source friendly)
+- **Runtime**: Eagle Plugin API (Chromium 107 + Node.js 16)
+- **Database**: sql.js (WebAssembly SQLite)
+- **Archive**: JSZip for .apkg extraction
+- **Compression**: fzstd for Anki 24.x+ zstd decompression
+- **Styling**: Theme-aware CSS with CSS variables
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## 🚀 Quick Start
+## 🚀 Installation
 
-### Using as Template
+### Method 1: Eagle Plugin Store (Recommended)
+*Coming soon - once published to Eagle's official plugin repository*
 
-This repository is designed as a GitHub template. You can create a new project from it using:
+### Method 2: Manual Installation
 
-**Method 1: GitHub Web Interface (Recommended)**
-1. Click the "Use this template" button above
-2. Configure your new repository
-3. Start coding!
+1. **Download the release**
+   - Go to [Releases](https://github.com/leonwong282/eagle-anki-metadata/releases)
+   - Download `Eagle.Anki.Metadata.eaglepluginzip`
+   - Compress to `Eagle.Anki.Metadata.eagleplugin`
+   - To install in Eagle
 
-**Method 2: GitHub CLI**
+### Method 3: Build from Source
+
 ```bash
-gh repo create your-project-name \
-  --template leonwong282/awesome-project-template \
-  --public --clone
+# Clone repository
+git clone https://github.com/leonwong282/eagle-anki-metadata.git
+cd eagle-anki-metadata
+
+# Install dependencies
+cd "Eagle Anki Metadata"
+npm install
+
+# Build distribution package
+npm run build
+npm run build:zip
 ```
 
-**Method 3: Manual Clone**
-```bash
-git clone https://github.com/leonwong282/awesome-project-template.git your-project
-cd your-project
-rm -rf .git && git init
-```
+Then install the generated `.eagleplugin` file in Eagle.
 
-### Prerequisites
+### Requirements
 
-Before you begin, ensure you have the following installed:
-
-- [Node.js](https://nodejs.org/) (v18.0.0 or higher)
-- [Git](https://git-scm.com/)
-- [Database System](docs/DATABASE_SETUP.md) (PostgreSQL, MySQL, or SQLite)
-- [GitHub CLI](https://cli.github.com/) (optional, for Method 2)
-
-### Development Setup (After Using Template)
-
-Once you've created your project from this template:
-
-1. **Install dependencies**
-   ```bash
-   npm install
-   # or
-   yarn install
-   # or
-   pnpm install
-   ```
-
-2. **Set up database** (see [Database Setup Guide](docs/DATABASE_SETUP.md))
-   ```bash
-   # Choose your database system and run schema files
-   npm run db:setup    # Get setup guidance
-   npm run db:seed:dev # Load development data
-   ```
-
-3. **Set up environment variables**
-   ```bash
-   cp .env.example .env.local
-   # Edit .env.local with your configuration
-   # Don't forget to add DATABASE_URL and other database settings
-   ```
-
-4. **Start the development server**
-   ```bash
-   npm run dev
-   # or
-   yarn dev
-   ```
-
-4. **Open your browser**
-  
-   Navigate to [http://localhost:3000](http://localhost:3000)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-## 🏗️ Template Structure
-
-This template provides a comprehensive foundation with the following components:
-
-### 📁 Project Organization
-```
-awesome-project-template/
-├── 📚 docs/                    # Comprehensive documentation
-│   ├── GETTING_STARTED.md      # Quick start guide
-│   ├── DATABASE_SETUP.md       # Database configuration
-│   └── README.md               # Documentation index
-├── 🗄️ database/               # SQL templates and migrations
-│   ├── schema/                 # Database schema files
-│   ├── migrations/             # Migration templates
-│   ├── seeds/                  # Sample data
-│   └── scripts/                # Setup and utility scripts
-├── 🤝 .github/                # GitHub integration
-│   ├── ISSUE_TEMPLATE/         # Issue templates
-│   ├── copilot-instructions.md # AI agent guidance
-│   └── pull_request_template.md # PR template
-├── 📋 Community Files
-│   ├── CONTRIBUTING.md         # Contribution guidelines
-│   ├── CODE_OF_CONDUCT.md      # Community standards
-│   └── SECURITY.md             # Security policy
-└── ⚙️ Configuration
-    ├── package.json            # Dependencies and scripts
-    ├── .editorconfig           # Code style consistency
-    └── .gitignore              # Git ignore patterns
-```
-
-### 🎯 Key Components
-
-- **Multi-language README** - English and Traditional Chinese versions
-- **Database Templates** - Production-ready SQL schemas for major databases
-- **GitHub Integration** - Issue templates, PR templates, community health files
-- **Documentation Hub** - Comprehensive guides in `/docs/`
-- **Migration System** - Database version control with rollback support
-- **Seed Data** - Sample data for development and testing environments
+- **Eagle**: Version 4.0 Beta 17 or higher
+- **Anki**: Deck files exported from Anki Desktop 2.1.x or 24.x+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## 📖 Usage
 
-### Customizing Your Project
+### Viewing Deck Metadata
 
-After creating your project from this template:
+1. **Add `.apkg` files to Eagle**
+   - Drag and drop Anki deck files into your Eagle library
+   - Or use Eagle's import function
 
-#### 1. **Update Project Information**
-```bash
-# Replace placeholder information in:
-# - package.json (name, description, author, repository)
-# - README.md (project name, description, URLs)
-# - docs/ files (update project-specific information)
+2. **View metadata**
+   - Select any `.apkg` file in Eagle
+   - The inspector panel on the right automatically displays deck metadata
+   - Click section headers to expand/collapse
+
+### Displayed Information
+
+| Section | Information |
+|---------|-------------|
+| **Header** | File name, size, schema version, modification date |
+| **Deck Summary** | Deck names, card counts (new/learning/review/total) |
+| **Note Types** | Note type names, field counts, template counts |
+| **Tags** | Tag names with usage counts |
+| **Statistics** | Total notes/cards, creation date, average ease factor |
+
+### Supported Formats
+
+| Anki Version | Database File | Compression | Status |
+|--------------|---------------|-------------|--------|
+| Anki 2.1.x | `collection.anki2` | None | ✅ Supported |
+| Anki 24.x+ | `collection.anki21b` | Zstd | ✅ Supported |
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## 🏗️ Project Structure
+
+```
+eagle-anki-metadata/
+├── Eagle Anki Metadata/       # Plugin source code
+│   ├── manifest.json          # Plugin configuration
+│   ├── package.json           # Dependencies & build scripts
+│   ├── index.html             # Main entry point
+│   ├── logo.png               # Plugin icon (128x128)
+│   ├── scripts/
+│   │   └── build.js           # Build script
+│   ├── lib/
+│   │   ├── anki-parser.js     # Metadata extraction
+│   │   ├── jszip.min.js       # ZIP extraction
+│   │   ├── sql-wasm.js        # SQLite WASM loader
+│   │   ├── sql-wasm.wasm      # SQLite WASM binary
+│   │   └── fzstd.min.js       # Zstd decompression
+│   └── styles/
+│       └── inspector.css      # Theme-aware styles
+├── docs/                      # Documentation
+├── images/                    # Project images
+├── README.md                  # This file
+└── README.zh-TW.md            # Traditional Chinese README
 ```
 
-#### 2. **Database Setup**
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## 💻 Development
+
+### Setup
+
 ```bash
-# Choose and configure your database
-npm run db:setup      # Get setup guidance
-npm run db:seed:dev   # Load development data
-npm run db:seed:test  # Load test data
-```
-
-#### 3. **Development Workflow**
-```bash
-# Development server
-npm run dev
-
-# Code quality
-npm run lint          # Check code style
-npm run lint:fix      # Auto-fix issues
-npm run format        # Format code with Prettier
-
-# Build for production
-npm run build
-npm run preview       # Preview production build
+cd "Eagle Anki Metadata"
+npm install
 ```
 
 ### Available Scripts
 
 | Script | Description |
 |--------|-------------|
-| `npm run dev` | Start Vite development server |
-| `npm run build` | Build for production |
-| `npm run preview` | Preview production build |
-| `npm run lint` | Run ESLint |
-| `npm run lint:fix` | Fix ESLint errors |
-| `npm run format` | Format code with Prettier |
-| `npm run db:setup` | Database setup guidance |
-| `npm run db:seed:dev` | Load development seed data |
-| `npm run db:seed:test` | Load test seed data |
+| `npm install` | Install dependencies and copy libs |
+| `npm run build` | Create distribution package |
+| `npm run build:zip` | Build and create .zip archive |
+| `npm run clean` | Remove dist folder |
 
-### Documentation
+### Debugging
 
-For detailed guides and documentation:
+1. Load plugin in Eagle: `Plugins` → `Developer` → `Load Plugin from Folder`
+2. Select an `.apkg` file
+3. Right-click inspector → `Developer Tools`
+4. Check console for logs and errors
 
-- **[📚 Documentation Hub](docs/README.md)** - Complete documentation index
-- **[🚀 Getting Started](docs/GETTING_STARTED.md)** - Detailed setup instructions
-- **[🗄️ Database Setup](docs/DATABASE_SETUP.md)** - Database configuration guide
-- **[🤝 Contributing](CONTRIBUTING.md)** - How to contribute to your project
+### Build Output
+
+The `npm run build` command creates:
+- `dist/Eagle Anki Metadata.eagleplugin/` (~865KB)
+- Contains only necessary files for distribution
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+Contributions are welcome! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
 
-### Quick Contribution Steps
+### Quick Steps
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
@@ -239,90 +194,63 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 
 ## 📋 Roadmap
 
-## 📋 Roadmap
+- [x] **Core Functionality** - Parse and display .apkg metadata
+- [x] **Theme Support** - All Eagle themes including AUTO mode
+- [x] **Anki 24.x+ Support** - Zstd decompression for new format
+- [x] **Build System** - Automated distribution packaging
+- [ ] **Media Preview** - Show images/audio from deck
+- [ ] **Card Preview** - Render sample card content
+- [ ] **Export Metadata** - Export as JSON/CSV
+- [ ] **Thumbnail Generation** - Format extension for Eagle grid
 
-- [x] **Core Template Structure** - Modern project foundation
-- [x] **Database Templates** - SQL schemas for major databases  
-- [x] **GitHub Integration** - Issue/PR templates, community files
-- [x] **Documentation System** - Comprehensive guides and setup instructions
-- [ ] **CI/CD Templates** - GitHub Actions workflows for common tasks
-- [ ] **Docker Configuration** - Containerization templates
-- [ ] **Testing Framework** - Unit and integration test examples
-- [ ] **API Documentation** - OpenAPI/Swagger templates
-- [ ] **Monitoring Setup** - Logging and monitoring configurations
+See [open issues](https://github.com/leonwong282/eagle-anki-metadata/issues) for more.
 
-See the [open issues](https://github.com/leonwong282/awesome-project-template/issues) for a full list of proposed features and known issues.
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## ⚠️ Limitations
+
+- **Read-only**: Cannot edit or modify `.apkg` files
+- **Metadata only**: Does not preview card content or media
+- **Large files**: Files >100MB may parse slowly
+
+## 🐛 Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| Plugin not appearing | Verify Eagle 4.0+ and reload plugin |
+| "Invalid Anki Deck" error | Re-export from Anki, ensure `.apkg` format |
+| Slow parsing | Normal for files >100MB |
+| Theme not updating | Reload plugin or restart Eagle |
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## 📄 License
 
-This project is licensed under the GPL-3.0 License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+## 👥 Author
 
-## 👥 Authors
-
-- **Leon Wong** - *Initial work* - [leonwong282](https://github.com/leonwong282)
-
-See also the list of [contributors](https://github.com/leonwong282/awesome-project-template/contributors) who participated in this project.
+- **Leon Wong** - [leonwong282](https://github.com/leonwong282)
 
 ## 🙏 Acknowledgments
 
-This template was inspired by and built upon the work of many excellent open source projects and communities. We are grateful to:
-
-### 📚 Documentation & Templates
-- **[Best-README-Template](https://github.com/othneildrew/Best-README-Template)** - Excellent README structure and formatting inspiration
-- **[Keep a Changelog](https://keepachangelog.com/en/1.0.0/)** - Changelog format standards
-- **[Contributor Covenant](https://www.contributor-covenant.org/)** - Code of Conduct template
-
-### 🛠️ Development Tools & Standards
-- **[Shields.io](https://shields.io/)** - Beautiful and informative badges
-- **[EditorConfig](https://editorconfig.org/)** - Consistent coding styles across editors
-- **[Semantic Versioning](https://semver.org/spec/v2.0.0.html)** - Version numbering standards
-- **[GitHub](https://github.com/)** - Platform and tools that make open source collaboration possible
-
-### 🎨 UI/UX Inspiration
-- **[GitHub's own templates](https://github.com/github)** - Official GitHub repository templates
-- **[Awesome README](https://github.com/matiassingers/awesome-readme)** - Curated list of awesome READMEs
-- **[readme.so](https://readme.so/)** - README editor and generator
-
-### 🔧 Technical Stack
-- **[Node.js](https://nodejs.org/)** - JavaScript runtime
-- **[Vite](https://vitejs.dev/)** - Build tool and development server
-- **[TypeScript](https://www.typescriptlang.org/)** - Type-safe JavaScript
-- **[React](https://reactjs.org/)** - UI library
-- **[ESLint](https://eslint.org/)** - Code linting
-- **[Prettier](https://prettier.io/)** - Code formatting
-
-### 🌟 Special Thanks
-- **GitHub Community** - For continuous inspiration and feedback
-- **Open Source Contributors** - Who make projects like this possible
-- **Template Users** - Your usage and feedback help improve this template
-
----
-
-*If you're using this template and want to add your project to our showcase, feel free to [open an issue](https://github.com/leonwong282/awesome-project-template/issues)!*
+- [Eagle](https://eagle.cool) - Image management application
+- [Anki](https://apps.ankiweb.net/) - Flashcard application
+- [sql.js](https://sql.js.org/) - SQLite compiled to WebAssembly
+- [JSZip](https://stuk.github.io/jszip/) - ZIP file library
+- [fzstd](https://github.com/101arrowz/fzstd) - Zstd decompression
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## 📞 Support
 
-If you have any questions or need help, please:
-
-- 📝 [Open an issue](https://github.com/leonwong282/awesome-project-template/issues/new)
-- 💬 [Start a discussion](https://github.com/leonwong282/awesome-project-template/discussions)
-- 📧 Email us at: leonwong282@gmail.com
-- 🌐 Visit my blog: [leonwong282.com](https://leonwong282.com/)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+- 📝 [Open an issue](https://github.com/leonwong282/eagle-anki-metadata/issues/new)
+- 📧 Email: leonwong282@gmail.com
 
 ## 🔗 Links
 
-- **Live Demo**: [https://your-demo-url.com](https://your-demo-url.com)
-- **Documentation**: [https://docs.your-project.com](https://docs.your-project.com)
-- **API Reference**: [https://api.your-project.com](https://api.your-project.com)
-- **Blog**: [https://leonwong282.com/](https://leonwong282.com/)
+- [Eagle Plugin API Documentation](https://developer.eagle.cool/plugin-api/)
+- [Anki Database Schema](https://github.com/ankidroid/Anki-Android/wiki/Database-Structure)
 
 ---
 
@@ -330,6 +258,6 @@ If you have any questions or need help, please:
 
 **⭐ Star this repository if it helped you!**
 
-Made with ❤️ by [Leon](https://github.com/leonwong282)
+Made with ❤️ for the Eagle and Anki communities
 
 </div>

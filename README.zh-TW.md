@@ -2,307 +2,189 @@
 
 <div align="center">
 
-<a href="https://github.com/leonwong282/awesome-project-template">
+<a href="https://github.com/leonwong282/eagle-anki-metadata">
   <img src="images/logo.png" alt="Logo" width="80" height="80">
 </a>
 
-# 🚀 Awesome Project Template
+# 📚 Eagle Anki Metadata
 
-> 一個現代、美觀且結構良好的開源專案模板
+> 在 Eagle 中直接顯示 Anki 牌組詮釋資料的 Inspector 擴充套件
 
-![Version](https://img.shields.io/badge/Version-1.0.0-blue?style=for-the-badge)
-![License](https://img.shields.io/badge/License-GPL--3.0-red?style=for-the-badge)
-![Template](https://img.shields.io/badge/Template-Ready-green?style=for-the-badge)
-![Platform](https://img.shields.io/badge/Platform-Cross--Platform-purple?style=for-the-badge)
-![Stars](https://img.shields.io/github/stars/leonwong282/awesome-project-template?style=for-the-badge&color=yellow)
+![Version](https://img.shields.io/badge/版本-1.0.0-blue?style=for-the-badge)
+![License](https://img.shields.io/badge/授權-MIT-green?style=for-the-badge)
+![Eagle](https://img.shields.io/badge/Eagle-4.0%2B-orange?style=for-the-badge)
+![Platform](https://img.shields.io/badge/平台-跨平台-purple?style=for-the-badge)
 
 [🌍 English](README.md) | [🇹🇼 繁體中文](README.zh-TW.md) 
 
-[特色功能](#-特色功能) • [快速開始](#-快速開始) • [使用方法](#-使用方法) • [貢獻](#-貢獻)
+[功能特色](#-功能特色) • [安裝方式](#-安裝方式) • [使用說明](#-使用說明) • [開發指南](#-開發指南) • [貢獻](#-貢獻)
 
 </div>
 
-## ✨ 特色功能
+## 📸 預覽
 
-- 🎯 **現代技術堆疊**: React 18 + TypeScript + Vite 提供極速開發體驗
-- �️ **資料庫模板**: 為 PostgreSQL、MySQL 和 SQLite 提供即用的 SQL 架構
-- � **文件優先**: 為用戶和貢獻者提供全面的指南
-- 🤝 **GitHub 整合**: 議題模板、PR 模板和社群健康檔案
-- � **程式品質**: ESLint、Prettier 和 EditorConfig 確保程式碼風格一致
-- 🌍 **多語言支援**: 模板結構支援國際化
-- 🔄 **遷移系統**: 資料庫遷移模板與最佳實踐
-- 🌱 **種子資料**: 開發和測試資料，快速建立專案
+<!-- TODO: 新增截圖 -->
+*截圖即將推出*
+
+## ✨ 功能特色
+
+- 📚 **牌組摘要** - 檢視牌組名稱、卡片數量（新卡/學習中/複習）及描述
+- 📝 **筆記類型** - 查看所有筆記類型，包含欄位數和模板數
+- 🏷️ **標籤** - 瀏覽標籤及其使用次數
+- 📊 **統計資料** - 總筆記數、總卡片數、建立日期、平均容易度
+- 🎨 **主題適配** - 支援所有 Eagle 主題（LIGHT、LIGHTGRAY、GRAY、BLUE、PURPLE、DARK、AUTO）
+- ⚡ **快速解析** - 一般牌組的詮釋資料擷取時間 < 2 秒
+- 🔒 **安全** - 唯讀詮釋資料檢視器，不會修改檔案
+- 🌐 **跨平台** - 支援 macOS、Windows 和 Linux
+- 📦 **Anki 24.x+ 支援** - 處理新版 zstd 壓縮資料庫格式
 
 ## 🛠️ 技術堆疊
 
-- **前端**: React 18, TypeScript, Vite
-- **資料庫**: PostgreSQL, MySQL, SQLite (包含模板)
-- **程式品質**: ESLint, Prettier, EditorConfig
-- **文件**: 全面的 markdown 指南
-- **社群**: GitHub 模板、行為準則、貢獻指南
-- **授權**: GPL-3.0 (開源友好)
+- **執行環境**: Eagle Plugin API (Chromium 107 + Node.js 16)
+- **資料庫**: sql.js (WebAssembly SQLite)
+- **壓縮檔**: JSZip 用於 .apkg 解壓
+- **解壓縮**: fzstd 用於 Anki 24.x+ zstd 解壓縮
+- **樣式**: 支援主題的 CSS 變數
 
 <p align="right">(<a href="#readme-top">回到頂部</a>)</p>
 
-## 🚀 快速開始
+## 🚀 安裝方式
 
-### 使用模板
+### 方法一：Eagle 擴充套件商店（推薦）
+*即將推出 - 待發布至 Eagle 官方擴充套件庫*
 
-此儲存庫設計為 GitHub 模板。您可以使用以下方式建立新專案：
+### 方法二：手動安裝
 
-**方法一：GitHub 網頁介面（推薦）**
-1. 點擊上方的「Use this template」按鈕
-2. 配置您的新儲存庫
-3. 開始編程！
+1. **下載發布版本**
+   - 前往 [Releases](https://github.com/leonwong282/eagle-anki-metadata/releases)
+   - 下載 `Eagle.Anki.Metadata.eagleplugin.zip`
+   - 解壓縮為 `Eagle.Anki.Metadata.eagleplugin`
+   - 在 Eagle 中安裝
 
-**方法二：GitHub CLI**
+### 方法三：從原始碼建置
+
 ```bash
-gh repo create your-project-name \
-  --template leonwong282/awesome-project-template \
-  --public --clone
+# 複製儲存庫
+git clone https://github.com/leonwong282/eagle-anki-metadata.git
+cd eagle-anki-metadata
+
+# 安裝相依性
+cd "Eagle Anki Metadata"
+npm install
+
+# 建置發布套件
+npm run build
+npm run build:zip
 ```
 
-**方法三：手動複製**
-```bash
-git clone https://github.com/leonwong282/awesome-project-template.git your-project
-cd your-project
-rm -rf .git && git init
-```
+然後在 Eagle 中安裝生成的 `.eagleplugin` 檔案。
 
 ### 系統需求
 
-開始之前，請確保您已安裝以下軟體：
-
-- [Node.js](https://nodejs.org/) (v18.0.0 或更高版本)
-- [Git](https://git-scm.com/)
-- [資料庫系統](docs/DATABASE_SETUP.md) (PostgreSQL, MySQL, 或 SQLite)
-- [GitHub CLI](https://cli.github.com/)（可選，用於方法二）
-
-### 開發環境設定（使用模板後）
-
-使用此模板建立專案後：
-
-1. **安裝相依性**
-   ```bash
-   npm install
-   # 或
-   yarn install
-   # 或
-   pnpm install
-   ```
-
-2. **設定資料庫**（詳見 [資料庫設定指南](docs/DATABASE_SETUP.md)）
-   ```bash
-   # 選擇您的資料庫系統並執行架構檔案
-   npm run db:setup    # 取得設定指引
-   npm run db:seed:dev # 載入開發資料
-   ```
-
-3. **設定環境變數**
-   ```bash
-   cp .env.example .env.local
-   # 使用您的配置編輯 .env.local
-   # 別忘了新增 DATABASE_URL 和其他資料庫設定
-   ```
-
-4. **啟動開發伺服器**
-   ```bash
-   npm run dev
-   # 或
-   yarn dev
-   ```
-
-4. **開啟瀏覽器**
-  
-   導航至 [http://localhost:3000](http://localhost:3000)
+- **Eagle**: 4.0 Beta 17 或更高版本
+- **Anki**: 從 Anki Desktop 2.1.x 或 24.x+ 匯出的牌組檔案
 
 <p align="right">(<a href="#readme-top">回到頂部</a>)</p>
 
-## 🏗️ 模板結構
+## 📖 使用說明
 
-此模板提供全面的基礎，包含以下組件：
+### 檢視牌組詮釋資料
 
-### 📁 專案組織
-```
-awesome-project-template/
-├── 📚 docs/                    # 全面的文件
-│   ├── GETTING_STARTED.md      # 快速開始指南
-│   ├── DATABASE_SETUP.md       # 資料庫配置
-│   └── README.md               # 文件索引
-├── 🗄️ database/               # SQL 模板和遷移
-│   ├── schema/                 # 資料庫架構檔案
-│   ├── migrations/             # 遷移模板
-│   ├── seeds/                  # 範例資料
-│   └── scripts/                # 設定和工具腳本
-├── 🤝 .github/                # GitHub 整合
-│   ├── ISSUE_TEMPLATE/         # 議題模板
-│   ├── copilot-instructions.md # AI 代理指南
-│   └── pull_request_template.md # PR 模板
-├── � 社群檔案
-│   ├── CONTRIBUTING.md         # 貢獻指南
-│   ├── CODE_OF_CONDUCT.md      # 社群標準
-│   └── SECURITY.md             # 安全政策
-└── ⚙️ 配置
-    ├── package.json            # 相依性和腳本
-    ├── .editorconfig           # 程式碼風格一致性
-    └── .gitignore              # Git 忽略模式
-```
+1. **將 `.apkg` 檔案加入 Eagle**
+   - 將 Anki 牌組檔案拖放到您的 Eagle 素材庫
+   - 或使用 Eagle 的匯入功能
 
-### 🎯 核心組件
+2. **檢視詮釋資料**
+   - 在 Eagle 中選取任意 `.apkg` 檔案
+   - 右側的檢視面板會自動顯示牌組詮釋資料
+   - 點擊區段標題可展開/收合
 
-- **多語言 README** - 英文和繁體中文版本
-- **資料庫模板** - 主要資料庫的生產就緒 SQL 架構
-- **GitHub 整合** - 議題模板、PR 模板、社群健康檔案
-- **文件中心** - `/docs/` 中的全面指南
-- **遷移系統** - 資料庫版本控制與回滾支援
-- **種子資料** - 開發和測試環境的範例資料
+### 顯示資訊
+
+| 區段 | 資訊 |
+|------|------|
+| **標題** | 檔案名稱、檔案大小、架構版本、修改日期 |
+| **牌組摘要** | 牌組名稱、卡片數量（新卡/學習中/複習/總計） |
+| **筆記類型** | 筆記類型名稱、欄位數、模板數 |
+| **標籤** | 標籤名稱及使用次數 |
+| **統計資料** | 總筆記數/卡片數、建立日期、平均容易度 |
+
+### 支援的格式
+
+| Anki 版本 | 資料庫檔案 | 壓縮方式 | 狀態 |
+|-----------|------------|----------|------|
+| Anki 2.1.x | `collection.anki2` | 無 | ✅ 支援 |
+| Anki 24.x+ | `collection.anki21b` | Zstd | ✅ 支援 |
 
 <p align="right">(<a href="#readme-top">回到頂部</a>)</p>
 
-## �📖 使用方法
+## 🏗️ 專案結構
 
-### 自定義您的專案
-
-使用此模板建立專案後：
-
-#### 1. **更新專案資訊**
-```bash
-# 在以下檔案中替換佔位符資訊：
-# - package.json (名稱、描述、作者、儲存庫)
-# - README.md (專案名稱、描述、URL)
-# - docs/ 檔案 (更新專案特定資訊)
+```
+eagle-anki-metadata/
+├── Eagle Anki Metadata/       # 擴充套件原始碼
+│   ├── manifest.json          # 擴充套件設定
+│   ├── package.json           # 相依性及建置腳本
+│   ├── index.html             # 主要進入點
+│   ├── logo.png               # 擴充套件圖示 (128x128)
+│   ├── scripts/
+│   │   └── build.js           # 建置腳本
+│   ├── lib/
+│   │   ├── anki-parser.js     # 詮釋資料擷取
+│   │   ├── jszip.min.js       # ZIP 解壓
+│   │   ├── sql-wasm.js        # SQLite WASM 載入器
+│   │   ├── sql-wasm.wasm      # SQLite WASM 二進位檔
+│   │   └── fzstd.min.js       # Zstd 解壓縮
+│   └── styles/
+│       └── inspector.css      # 主題適配樣式
+├── docs/                      # 文件
+├── images/                    # 專案圖片
+├── README.md                  # 英文說明
+└── README.zh-TW.md            # 本檔案
 ```
 
-#### 2. **資料庫設定**
+<p align="right">(<a href="#readme-top">回到頂部</a>)</p>
+
+## 💻 開發指南
+
+### 環境設定
+
 ```bash
-# 選擇並配置您的資料庫
-npm run db:setup      # 取得設定指引
-npm run db:seed:dev   # 載入開發資料
-npm run db:seed:test  # 載入測試資料
-```
-
-#### 3. **開發工作流程**
-```bash
-# 開發伺服器
-npm run dev
-
-# 程式品質
-npm run lint          # 檢查程式碼風格
-npm run lint:fix      # 自動修正問題
-npm run format        # 使用 Prettier 格式化程式碼
-
-# 建置生產版本
-npm run build
-npm run preview       # 預覽生產建置
+cd "Eagle Anki Metadata"
+npm install
 ```
 
 ### 可用腳本
 
-| 腳本 | 描述 |
+| 腳本 | 說明 |
 |------|------|
-| `npm run dev` | 啟動 Vite 開發伺服器 |
-| `npm run build` | 建置生產版本 |
-| `npm run preview` | 預覽生產建置 |
-| `npm run lint` | 執行 ESLint |
-| `npm run lint:fix` | 修正 ESLint 錯誤 |
-| `npm run format` | 使用 Prettier 格式化程式碼 |
-| `npm run db:setup` | 資料庫設定指引 |
-| `npm run db:seed:dev` | 載入開發種子資料 |
-| `npm run db:seed:test` | 載入測試種子資料 |
+| `npm install` | 安裝相依性並複製函式庫 |
+| `npm run build` | 建立發布套件 |
+| `npm run build:zip` | 建置並建立 .zip 壓縮檔 |
+| `npm run clean` | 移除 dist 資料夾 |
 
-### 文件
+### 除錯
 
-詳細指南和文件：
+1. 在 Eagle 中載入擴充套件：`擴充套件` → `開發者` → `從資料夾載入擴充套件`
+2. 選取一個 `.apkg` 檔案
+3. 右鍵點擊檢視面板 → `開發者工具`
+4. 在主控台檢查日誌和錯誤
 
-- **[📚 文件中心](docs/README.md)** - 完整文件索引
-- **[🚀 開始使用](docs/GETTING_STARTED.md)** - 詳細設定說明
-- **[🗄️ 資料庫設定](docs/DATABASE_SETUP.md)** - 資料庫配置指南
-- **[🤝 貢獻](CONTRIBUTING.md)** - 如何為您的專案做出貢獻
+### 建置輸出
 
-<p align="right">(<a href="#readme-top">回到頂部</a>)</p>
-
-```javascript
-## 🤝 貢獻
-
-歡迎貢獻！請查看我們的 [貢獻指南](CONTRIBUTING.md) 了解詳情。
-```
-
-### 配置
-
-在專案根目錄建立 `config.json` 檔案：
-
-```json
-{
-  "option1": "value1",
-  "option2": "value2",
-  "advanced": {
-    "feature": true,
-    "timeout": 5000
-  }
-}
-```
-
-<p align="right">(<a href="#readme-top">回到頂部</a>)</p>
-
-## 📊 範例
-
-### 範例一：基本實作
-
-```javascript
-// 您的範例程式碼
-```
-
-### 範例二：進階功能
-
-```javascript
-// 更複雜的範例
-```
-
-## 🧪 測試
-
-```bash
-# 執行測試
-npm test
-
-# 執行測試並產生覆蓋率報告
-npm run test:coverage
-
-# 執行端對端測試
-npm run test:e2e
-```
-
-## 📦 建置
-
-```bash
-# 為生產環境建置
-npm run build
-
-# 建置並分析套件
-npm run build:analyze
-```
-
-## 🐳 Docker
-
-```bash
-# 建置 Docker 映像
-docker build -t awesome-project-template .
-
-# 使用 Docker 執行
-docker run -p 3000:3000 awesome-project-template
-
-# 使用 Docker Compose
-docker-compose up
-```
+`npm run build` 指令會建立：
+- `dist/Eagle Anki Metadata.eagleplugin/` (~865KB)
+- 僅包含發布所需的檔案
 
 <p align="right">(<a href="#readme-top">回到頂部</a>)</p>
 
 ## 🤝 貢獻
 
-我們歡迎貢獻！請查看我們的[貢獻指南](CONTRIBUTING.md)了解詳情。
+歡迎貢獻！請參閱我們的[貢獻指南](CONTRIBUTING.md)了解詳情。
 
-### 快速貢獻步驟
+### 快速步驟
 
-1. Fork 儲存庫
+1. Fork 此儲存庫
 2. 建立您的功能分支 (`git checkout -b feature/AmazingFeature`)
 3. 提交您的變更 (`git commit -m 'Add some AmazingFeature'`)
 4. 推送到分支 (`git push origin feature/AmazingFeature`)
@@ -312,95 +194,70 @@ docker-compose up
 
 ## 📋 路線圖
 
-- [x] **核心模板結構** - 現代專案基礎
-- [x] **資料庫模板** - 主要資料庫的 SQL 架構
-- [x] **GitHub 整合** - 議題/PR 模板、社群檔案
-- [x] **文件系統** - 全面的指南和設定說明
-- [ ] **CI/CD 模板** - 常見任務的 GitHub Actions 工作流程
-- [ ] **Docker 配置** - 容器化模板
-- [ ] **測試框架** - 單元和整合測試範例
-- [ ] **API 文件** - OpenAPI/Swagger 模板
-- [ ] **監控設定** - 日誌記錄和監控配置
+- [x] **核心功能** - 解析並顯示 .apkg 詮釋資料
+- [x] **主題支援** - 支援所有 Eagle 主題，包含 AUTO 模式
+- [x] **Anki 24.x+ 支援** - 新格式的 Zstd 解壓縮
+- [x] **建置系統** - 自動化發布套件建置
+- [ ] **媒體預覽** - 顯示牌組中的圖片/音訊
+- [ ] **卡片預覽** - 呈現範例卡片內容
+- [ ] **匯出詮釋資料** - 匯出為 JSON/CSV
+- [ ] **縮圖生成** - Eagle 網格的格式擴充
 
-查看[開放議題](https://github.com/leonwong282/awesome-project-template/issues)以獲取完整的建議功能和已知問題清單。
+查看[開放的 issues](https://github.com/leonwong282/eagle-anki-metadata/issues) 了解更多。
+
+<p align="right">(<a href="#readme-top">回到頂部</a>)</p>
+
+## ⚠️ 限制
+
+- **唯讀**：無法編輯或修改 `.apkg` 檔案
+- **僅詮釋資料**：不預覽卡片內容或媒體
+- **大型檔案**：>100MB 的檔案解析可能較慢
+
+## 🐛 疑難排解
+
+| 問題 | 解決方案 |
+|------|----------|
+| 擴充套件未出現 | 確認 Eagle 4.0+ 並重新載入擴充套件 |
+| 「無效的 Anki 牌組」錯誤 | 從 Anki 重新匯出，確保是 `.apkg` 格式 |
+| 解析緩慢 | >100MB 的檔案屬正常現象 |
+| 主題未更新 | 重新載入擴充套件或重新啟動 Eagle |
 
 <p align="right">(<a href="#readme-top">回到頂部</a>)</p>
 
 ## 📄 授權條款
 
-本專案採用 GPL-3.0 授權條款 - 查看 [LICENSE](LICENSE) 檔案了解詳情。
-
-<p align="right">(<a href="#readme-top">回到頂部</a>)</p>
+本專案採用 MIT 授權條款 - 詳見 [LICENSE](LICENSE) 檔案。
 
 ## 👥 作者
 
-- **Leon Wong** - *初始開發* - [leonwong282](https://github.com/leonwong282)
-
-另請參閱參與此專案的[貢獻者](https://github.com/leonwong282/awesome-project-template/contributors)清單。
+- **Leon Wong** - [leonwong282](https://github.com/leonwong282)
 
 ## 🙏 致謝
 
-此模板的靈感來自於許多優秀開源專案和社群的工作成果。我們感謝：
-
-### 📚 文檔與模板
-- **[Best-README-Template](https://github.com/othneildrew/Best-README-Template)** - 優秀的 README 結構和格式靈感
-- **[Keep a Changelog](https://keepachangelog.com/en/1.0.0/)** - 變更日誌格式標準
-- **[Contributor Covenant](https://www.contributor-covenant.org/)** - 行為準則模板
-
-### 🛠️ 開發工具與標準
-- **[Shields.io](https://shields.io/)** - 美觀且資訊豐富的徽章
-- **[EditorConfig](https://editorconfig.org/)** - 跨編輯器的一致編碼風格
-- **[Semantic Versioning](https://semver.org/spec/v2.0.0.html)** - 版本號碼標準
-- **[GitHub](https://github.com/)** - 使開源協作成為可能的平台和工具
-
-### 🎨 UI/UX 靈感
-- **[GitHub 官方模板](https://github.com/github)** - GitHub 官方儲存庫模板
-- **[Awesome README](https://github.com/matiassingers/awesome-readme)** - 精選的優秀 README 清單
-- **[readme.so](https://readme.so/)** - README 編輯器和產生器
-
-### 🔧 技術堆疊
-- **[Node.js](https://nodejs.org/)** - JavaScript 執行環境
-- **[Vite](https://vitejs.dev/)** - 建置工具和開發伺服器
-- **[TypeScript](https://www.typescriptlang.org/)** - 型別安全的 JavaScript
-- **[React](https://reactjs.org/)** - UI 函式庫
-- **[ESLint](https://eslint.org/)** - 程式碼檢查
-- **[Prettier](https://prettier.io/)** - 程式碼格式化
-
-### 🌟 特別感謝
-- **GitHub 社群** - 持續的靈感和回饋
-- **開源貢獻者** - 讓這樣的專案成為可能
-- **模板使用者** - 您的使用和回饋幫助改進此模板
-
----
-
-*如果您正在使用此模板並希望將您的專案加入我們的展示，歡迎[開啟議題](https://github.com/leonwong282/awesome-project-template/issues)！*
+- [Eagle](https://eagle.cool) - 圖片管理應用程式
+- [Anki](https://apps.ankiweb.net/) - 記憶卡應用程式
+- [sql.js](https://sql.js.org/) - SQLite 編譯為 WebAssembly
+- [JSZip](https://stuk.github.io/jszip/) - ZIP 檔案函式庫
+- [fzstd](https://github.com/101arrowz/fzstd) - Zstd 解壓縮
 
 <p align="right">(<a href="#readme-top">回到頂部</a>)</p>
 
 ## 📞 支援
 
-如果您有任何問題或需要協助，請：
-
-- 📝 [開啟議題](https://github.com/leonwong282/awesome-project-template/issues/new)
-- 💬 [開始討論](https://github.com/leonwong282/awesome-project-template/discussions)
-- 📧 發送電子郵件至：leonwong282@gmail.com
-- 🌐 造訪我的部落格：[leonwong282.com](https://leonwong282.com/)
-
-<p align="right">(<a href="#readme-top">回到頂部</a>)</p>
+- 📝 [開啟 issue](https://github.com/leonwong282/eagle-anki-metadata/issues/new)
+- 📧 電子郵件：leonwong282@gmail.com
 
 ## 🔗 連結
 
-- **線上展示**: [https://your-demo-url.com](https://your-demo-url.com)
-- **文件**: [https://docs.your-project.com](https://docs.your-project.com)
-- **API 參考**: [https://api.your-project.com](https://api.your-project.com)
-- **部落格**: [https://leonwong282.com/](https://leonwong282.com/)
+- [Eagle Plugin API 文件](https://developer.eagle.cool/plugin-api/)
+- [Anki 資料庫架構](https://github.com/ankidroid/Anki-Android/wiki/Database-Structure)
 
 ---
 
 <div align="center">
 
-**⭐ 如果這個儲存庫對您有幫助，請給它一個星星！**
+**⭐ 如果這個專案對您有幫助，請給它一顆星！**
 
-用 ❤️ 製作，作者 [Leon](https://github.com/leonwong282)
+用 ❤️ 為 Eagle 和 Anki 社群製作
 
 </div>
