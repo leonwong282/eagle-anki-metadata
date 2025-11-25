@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Eagle Anki Metadata - Build Script
- * 
+ *
  * Creates a clean distribution package with only necessary files.
  * Output: ../dist/Eagle Anki Metadata.eagleplugin/
  */
@@ -48,7 +48,7 @@ function ensureCleanDir(dir) {
 function copyFile(src, dest) {
     const relativeSrc = path.relative(SOURCE_DIR, src);
     const relativeDest = path.relative(DIST_DIR, dest);
-    
+
     fs.copyFileSync(src, dest);
     console.log(`  ✓ ${relativeSrc}`);
 }
@@ -58,17 +58,17 @@ function copyFile(src, dest) {
  */
 function copyDir(src, dest, excludeFiles = []) {
     fs.mkdirSync(dest, { recursive: true });
-    
+
     const entries = fs.readdirSync(src, { withFileTypes: true });
-    
+
     for (const entry of entries) {
         const srcPath = path.join(src, entry.name);
         const destPath = path.join(dest, entry.name);
-        
+
         if (excludeFiles.includes(entry.name)) {
             continue;
         }
-        
+
         if (entry.isDirectory()) {
             copyDir(srcPath, destPath, excludeFiles);
         } else {
@@ -83,7 +83,7 @@ function copyDir(src, dest, excludeFiles = []) {
 function bundleFzstd() {
     const fzstdSrc = path.join(SOURCE_DIR, 'node_modules/fzstd/umd/index.js');
     const fzstdDest = path.join(OUTPUT_DIR, 'lib/fzstd.min.js');
-    
+
     if (fs.existsSync(fzstdSrc)) {
         fs.copyFileSync(fzstdSrc, fzstdDest);
         console.log(`  ✓ lib/fzstd.min.js (bundled from node_modules)`);
@@ -99,7 +99,7 @@ function syncVersion() {
     const packageJson = JSON.parse(fs.readFileSync(path.join(SOURCE_DIR, 'package.json'), 'utf8'));
     const manifestPath = path.join(OUTPUT_DIR, 'manifest.json');
     const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-    
+
     if (packageJson.version !== manifest.version) {
         manifest.version = packageJson.version;
         fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 4));
@@ -112,7 +112,7 @@ function syncVersion() {
  */
 function calculateSize(dir) {
     let totalSize = 0;
-    
+
     function walkDir(currentDir) {
         const entries = fs.readdirSync(currentDir, { withFileTypes: true });
         for (const entry of entries) {
@@ -124,7 +124,7 @@ function calculateSize(dir) {
             }
         }
     }
-    
+
     walkDir(dir);
     return totalSize;
 }
@@ -147,19 +147,19 @@ function build() {
     console.log('║   Eagle Anki Metadata - Build Script       ║');
     console.log('╚════════════════════════════════════════════╝');
     console.log('');
-    
+
     // Step 1: Clean and create output directory
     console.log('📁 Creating output directory...');
     ensureCleanDir(OUTPUT_DIR);
     console.log(`   ${OUTPUT_DIR}`);
     console.log('');
-    
+
     // Step 2: Copy individual files
     console.log('📄 Copying files...');
     for (const file of INCLUDE_FILES) {
         const srcPath = path.join(SOURCE_DIR, file);
         const destPath = path.join(OUTPUT_DIR, file);
-        
+
         if (fs.existsSync(srcPath)) {
             copyFile(srcPath, destPath);
         } else {
@@ -167,13 +167,13 @@ function build() {
         }
     }
     console.log('');
-    
+
     // Step 3: Copy directories
     console.log('📂 Copying directories...');
     for (const dir of INCLUDE_DIRS) {
         const srcPath = path.join(SOURCE_DIR, dir);
         const destPath = path.join(OUTPUT_DIR, dir);
-        
+
         if (fs.existsSync(srcPath)) {
             console.log(`   ${dir}/`);
             copyDir(srcPath, destPath, EXCLUDE_FROM_LIB);
@@ -182,21 +182,21 @@ function build() {
         }
     }
     console.log('');
-    
+
     // Step 4: Bundle fzstd
     console.log('📦 Bundling dependencies...');
     bundleFzstd();
     console.log('');
-    
+
     // Step 5: Sync version
     console.log('🔄 Syncing version...');
     syncVersion();
     console.log('');
-    
+
     // Step 6: Calculate and display stats
     const totalSize = calculateSize(OUTPUT_DIR);
     const fileCount = fs.readdirSync(OUTPUT_DIR, { recursive: true }).length;
-    
+
     console.log('════════════════════════════════════════════');
     console.log('');
     console.log('✅ Build complete!');
