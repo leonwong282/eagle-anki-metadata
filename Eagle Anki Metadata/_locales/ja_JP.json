@@ -1,0 +1,59 @@
+{
+    "manifest": {
+        "name": "Eagle Anki メタデータ",
+        "description": "Eagle InspectorでAnkiデッキのメタデータを表示"
+    },
+    "loading": {
+        "text": "デッキのメタデータを読み込み中..."
+    },
+    "error": {
+        "noFileSelected": "ファイルが選択されていません",
+        "noFileSelectedMsg": "メタデータを表示するには .apkg ファイルを選択してください。",
+        "invalidFileType": "ファイル形式が無効です",
+        "invalidFileTypeMsg": "選択されたファイルは有効なAnkiデッキファイル (.apkg) ではありません。",
+        "fileExtension": "ファイル拡張子",
+        "errorParsingDeck": "デッキの解析中にエラーが発生しました",
+        "unknownError": "デッキの解析中に不明なエラーが発生しました。",
+        "checkConsole": "詳細は開発者ツールのコンソールを確認してください。"
+    },
+    "warning": {
+        "largeFile": "大容量デッキファイル ({{size}}MB)。解析に時間がかかる場合があります。"
+    },
+    "section": {
+        "deckSummary": "デッキ概要",
+        "noteTypes": "ノートタイプ",
+        "tags": "タグ",
+        "statistics": "統計"
+    },
+    "deck": {
+        "dynamic": "ダイナミック",
+        "new": "新規",
+        "learning": "学習中",
+        "review": "復習",
+        "total": "合計"
+    },
+    "noteType": {
+        "note": "ノート",
+        "notes": "ノート",
+        "field": "フィールド",
+        "fields": "フィールド",
+        "template": "テンプレート",
+        "templates": "テンプレート"
+    },
+    "tags": {
+        "andMore": "他 {{count}} 件"
+    },
+    "stats": {
+        "totalNotes": "総ノート数",
+        "totalCards": "総カード数",
+        "created": "作成日",
+        "avgEase": "平均容易度",
+        "newCards": "新規カード",
+        "learning": "学習中",
+        "review": "復習",
+        "relearning": "再学習"
+    },
+    "header": {
+        "schema": "スキーマ"
+    }
+}

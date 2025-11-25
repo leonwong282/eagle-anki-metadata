@@ -1,0 +1,59 @@
+{
+    "manifest": {
+        "name": "Eagle Anki 詮釋資料",
+        "description": "在 Eagle Inspector 中顯示 Anki 牌組詮釋資料"
+    },
+    "loading": {
+        "text": "正在載入牌組詮釋資料..."
+    },
+    "error": {
+        "noFileSelected": "未選取檔案",
+        "noFileSelectedMsg": "請選取一個 .apkg 檔案來查看詮釋資料。",
+        "invalidFileType": "檔案類型無效",
+        "invalidFileTypeMsg": "所選檔案不是有效的 Anki 牌組檔案 (.apkg)。",
+        "fileExtension": "檔案副檔名",
+        "errorParsingDeck": "解析牌組時發生錯誤",
+        "unknownError": "解析牌組時發生未知錯誤。",
+        "checkConsole": "請查看開發者工具主控台以了解詳情。"
+    },
+    "warning": {
+        "largeFile": "大型牌組檔案 ({{size}}MB)。解析可能較慢。"
+    },
+    "section": {
+        "deckSummary": "牌組摘要",
+        "noteTypes": "筆記類型",
+        "tags": "標籤",
+        "statistics": "統計資料"
+    },
+    "deck": {
+        "dynamic": "動態",
+        "new": "新卡",
+        "learning": "學習中",
+        "review": "複習",
+        "total": "總計"
+    },
+    "noteType": {
+        "note": "則筆記",
+        "notes": "則筆記",
+        "field": "個欄位",
+        "fields": "個欄位",
+        "template": "個模板",
+        "templates": "個模板"
+    },
+    "tags": {
+        "andMore": "還有 {{count}} 個"
+    },
+    "stats": {
+        "totalNotes": "總筆記數",
+        "totalCards": "總卡片數",
+        "created": "建立日期",
+        "avgEase": "平均容易度",
+        "newCards": "新卡",
+        "learning": "學習中",
+        "review": "複習",
+        "relearning": "重新學習"
+    },
+    "header": {
+        "schema": "架構"
+    }
+}

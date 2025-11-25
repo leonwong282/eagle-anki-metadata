@@ -3,10 +3,13 @@
     "version": "1.0.0",
     "platform": "all",
     "arch": "all",
-    "name": "Eagle Anki Metadata",
+    "name": "{{manifest.name}}",
+    "description": "{{manifest.description}}",
     "logo": "/logo.png",
     "keywords": ["anki", "apkg", "flashcard", "deck", "metadata"],
     "devTools": true,
+    "fallbackLanguage": "en",
+    "languages": ["en", "zh_TW", "zh_CN", "ja_JP", "ko_KR"],
     "preview": {
         "apkg": {
             "inspector": {

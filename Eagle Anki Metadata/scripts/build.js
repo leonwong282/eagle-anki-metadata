@@ -26,7 +26,8 @@ const INCLUDE_FILES = [
 // Directories to include (will copy entire directory)
 const INCLUDE_DIRS = [
     'lib',
-    'styles'
+    'styles',
+    '_locales'
 ];
 
 // Files to exclude from lib directory (if any)

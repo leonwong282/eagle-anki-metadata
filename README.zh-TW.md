@@ -33,6 +33,7 @@
 - 🏷️ **標籤** - 瀏覽標籤及其使用次數
 - 📊 **統計資料** - 總筆記數、總卡片數、建立日期、平均容易度
 - 🎨 **主題適配** - 支援所有 Eagle 主題（LIGHT、LIGHTGRAY、GRAY、BLUE、PURPLE、DARK、AUTO）
+- 🌍 **多語言支援** - 支援 English、繁體中文、简体中文、日本語、한국어
 - ⚡ **快速解析** - 一般牌組的詮釋資料擷取時間 < 2 秒
 - 🔒 **安全** - 唯讀詮釋資料檢視器，不會修改檔案
 - 🌐 **跨平台** - 支援 macOS、Windows 和 Linux
@@ -135,8 +136,14 @@ eagle-anki-metadata/
 │   │   ├── sql-wasm.js        # SQLite WASM 載入器
 │   │   ├── sql-wasm.wasm      # SQLite WASM 二進位檔
 │   │   └── fzstd.min.js       # Zstd 解壓縮
-│   └── styles/
-│       └── inspector.css      # 主題適配樣式
+│   ├── styles/
+│   │   └── inspector.css      # 主題適配樣式
+│   └── _locales/              # 多語言支援
+│       ├── en.json            # English
+│       ├── zh_TW.json         # 繁體中文
+│       ├── zh_CN.json         # 简体中文
+│       ├── ja_JP.json         # 日本語
+│       └── ko_KR.json         # 한국어
 ├── docs/                      # 文件
 ├── images/                    # 專案圖片
 ├── README.md                  # 英文說明
@@ -198,6 +205,7 @@ npm install
 - [x] **主題支援** - 支援所有 Eagle 主題，包含 AUTO 模式
 - [x] **Anki 24.x+ 支援** - 新格式的 Zstd 解壓縮
 - [x] **建置系統** - 自動化發布套件建置
+- [x] **多語言支援** - 支援 5 種語言界面
 - [ ] **媒體預覽** - 顯示牌組中的圖片/音訊
 - [ ] **卡片預覽** - 呈現範例卡片內容
 - [ ] **匯出詮釋資料** - 匯出為 JSON/CSV

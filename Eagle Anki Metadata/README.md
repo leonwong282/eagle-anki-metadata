@@ -13,6 +13,7 @@ An [Eagle](https://eagle.cool) Inspector extension that displays metadata from A
 - 🏷️ **Tags**: Browse top 20 tags with usage counts
 - 📊 **Statistics**: Total notes, total cards, creation date, average ease factor, and card distribution
 - 🎨 **Theme-Aware**: Supports all Eagle themes including AUTO mode (follows system light/dark preference)
+- 🌍 **Multi-Language**: Supports English, 繁體中文, 简体中文, 日本語, 한국어
 - ⚡ **Fast Parsing**: Metadata extraction in <2 seconds for typical decks (<50MB)
 - 🔒 **Safe**: Read-only metadata viewer with no file modifications
 - 🌐 **Cross-Platform**: Works on macOS, Windows, and Linux
@@ -110,6 +111,7 @@ The build script creates a clean `dist/Eagle Anki Metadata.eagleplugin/` folder 
 - `README.md` - Documentation
 - `lib/` - Bundled dependencies (jszip, sql.js, fzstd)
 - `styles/` - CSS styles
+- `_locales/` - Multi-language translations (en, zh_TW, zh_CN, ja_JP, ko_KR)
 
 **To install the built plugin in Eagle:**
 1. Run `npm run build:zip` to create the archive
@@ -120,7 +122,7 @@ The build script creates a clean `dist/Eagle Anki Metadata.eagleplugin/` folder 
 
 ```
 Eagle Anki Metadata/
-├── manifest.json          # Plugin configuration
+├── manifest.json          # Plugin configuration (with i18n)
 ├── package.json           # npm dependencies & build scripts
 ├── index.html             # Inspector UI (main entry point)
 ├── logo.png               # Plugin icon (128x128)
@@ -134,6 +136,12 @@ Eagle Anki Metadata/
 │   └── anki-parser.js     # Metadata extraction logic
 ├── styles/
 │   └── inspector.css      # Theme-aware styles
+├── _locales/              # Multi-language support
+│   ├── en.json            # English
+│   ├── zh_TW.json         # Traditional Chinese
+│   ├── zh_CN.json         # Simplified Chinese
+│   ├── ja_JP.json         # Japanese
+│   └── ko_KR.json         # Korean
 └── README.md              # This file
 ```
 

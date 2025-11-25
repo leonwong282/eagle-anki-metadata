@@ -1,0 +1,59 @@
+{
+    "manifest": {
+        "name": "Eagle Anki Metadata",
+        "description": "Display Anki deck metadata in Eagle Inspector"
+    },
+    "loading": {
+        "text": "Loading deck metadata..."
+    },
+    "error": {
+        "noFileSelected": "No File Selected",
+        "noFileSelectedMsg": "Please select an .apkg file to view metadata.",
+        "invalidFileType": "Invalid File Type",
+        "invalidFileTypeMsg": "Selected file is not a valid Anki deck file (.apkg).",
+        "fileExtension": "File extension",
+        "errorParsingDeck": "Error Parsing Deck",
+        "unknownError": "An unknown error occurred while parsing the deck.",
+        "checkConsole": "Check Developer Tools console for details."
+    },
+    "warning": {
+        "largeFile": "Large deck file ({{size}}MB). Parsing may be slow."
+    },
+    "section": {
+        "deckSummary": "Deck Summary",
+        "noteTypes": "Note Types",
+        "tags": "Tags",
+        "statistics": "Statistics"
+    },
+    "deck": {
+        "dynamic": "Dynamic",
+        "new": "New",
+        "learning": "Learning",
+        "review": "Review",
+        "total": "Total"
+    },
+    "noteType": {
+        "note": "note",
+        "notes": "notes",
+        "field": "field",
+        "fields": "fields",
+        "template": "template",
+        "templates": "templates"
+    },
+    "tags": {
+        "andMore": "and {{count}} more"
+    },
+    "stats": {
+        "totalNotes": "Total Notes",
+        "totalCards": "Total Cards",
+        "created": "Created",
+        "avgEase": "Avg. Ease",
+        "newCards": "New Cards",
+        "learning": "Learning",
+        "review": "Review",
+        "relearning": "Relearning"
+    },
+    "header": {
+        "schema": "Schema"
+    }
+}

@@ -1,0 +1,59 @@
+{
+    "manifest": {
+        "name": "Eagle Anki 메타데이터",
+        "description": "Eagle Inspector에서 Anki 덱 메타데이터 표시"
+    },
+    "loading": {
+        "text": "덱 메타데이터 로드 중..."
+    },
+    "error": {
+        "noFileSelected": "파일이 선택되지 않음",
+        "noFileSelectedMsg": "메타데이터를 보려면 .apkg 파일을 선택하세요.",
+        "invalidFileType": "잘못된 파일 형식",
+        "invalidFileTypeMsg": "선택한 파일은 유효한 Anki 덱 파일 (.apkg)이 아닙니다.",
+        "fileExtension": "파일 확장자",
+        "errorParsingDeck": "덱 파싱 오류",
+        "unknownError": "덱 파싱 중 알 수 없는 오류가 발생했습니다.",
+        "checkConsole": "자세한 내용은 개발자 도구 콘솔을 확인하세요."
+    },
+    "warning": {
+        "largeFile": "대용량 덱 파일 ({{size}}MB). 파싱이 느릴 수 있습니다."
+    },
+    "section": {
+        "deckSummary": "덱 요약",
+        "noteTypes": "노트 유형",
+        "tags": "태그",
+        "statistics": "통계"
+    },
+    "deck": {
+        "dynamic": "다이나믹",
+        "new": "새 카드",
+        "learning": "학습 중",
+        "review": "복습",
+        "total": "총계"
+    },
+    "noteType": {
+        "note": "노트",
+        "notes": "노트",
+        "field": "필드",
+        "fields": "필드",
+        "template": "템플릿",
+        "templates": "템플릿"
+    },
+    "tags": {
+        "andMore": "외 {{count}}개"
+    },
+    "stats": {
+        "totalNotes": "총 노트 수",
+        "totalCards": "총 카드 수",
+        "created": "생성일",
+        "avgEase": "평균 쉬움도",
+        "newCards": "새 카드",
+        "learning": "학습 중",
+        "review": "복습",
+        "relearning": "재학습"
+    },
+    "header": {
+        "schema": "스키마"
+    }
+}

@@ -1,0 +1,59 @@
+{
+    "manifest": {
+        "name": "Eagle Anki 元数据",
+        "description": "在 Eagle Inspector 中显示 Anki 牌组元数据"
+    },
+    "loading": {
+        "text": "正在加载牌组元数据..."
+    },
+    "error": {
+        "noFileSelected": "未选择文件",
+        "noFileSelectedMsg": "请选择一个 .apkg 文件来查看元数据。",
+        "invalidFileType": "文件类型无效",
+        "invalidFileTypeMsg": "所选文件不是有效的 Anki 牌组文件 (.apkg)。",
+        "fileExtension": "文件扩展名",
+        "errorParsingDeck": "解析牌组时发生错误",
+        "unknownError": "解析牌组时发生未知错误。",
+        "checkConsole": "请查看开发者工具控制台以了解详情。"
+    },
+    "warning": {
+        "largeFile": "大型牌组文件 ({{size}}MB)。解析可能较慢。"
+    },
+    "section": {
+        "deckSummary": "牌组摘要",
+        "noteTypes": "笔记类型",
+        "tags": "标签",
+        "statistics": "统计数据"
+    },
+    "deck": {
+        "dynamic": "动态",
+        "new": "新卡",
+        "learning": "学习中",
+        "review": "复习",
+        "total": "总计"
+    },
+    "noteType": {
+        "note": "条笔记",
+        "notes": "条笔记",
+        "field": "个字段",
+        "fields": "个字段",
+        "template": "个模板",
+        "templates": "个模板"
+    },
+    "tags": {
+        "andMore": "还有 {{count}} 个"
+    },
+    "stats": {
+        "totalNotes": "总笔记数",
+        "totalCards": "总卡片数",
+        "created": "创建日期",
+        "avgEase": "平均容易度",
+        "newCards": "新卡",
+        "learning": "学习中",
+        "review": "复习",
+        "relearning": "重新学习"
+    },
+    "header": {
+        "schema": "架构"
+    }
+}

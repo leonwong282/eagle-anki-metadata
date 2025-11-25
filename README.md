@@ -33,6 +33,7 @@
 - 🏷️ **Tags** - Browse tags with usage counts
 - 📊 **Statistics** - Total notes, total cards, creation date, average ease factor
 - 🎨 **Theme-Aware** - Supports all Eagle themes (LIGHT, LIGHTGRAY, GRAY, BLUE, PURPLE, DARK, AUTO)
+- 🌍 **Multi-Language** - Supports English, 繁體中文, 简体中文, 日本語, 한국어
 - ⚡ **Fast Parsing** - Metadata extraction in <2 seconds for typical decks
 - 🔒 **Safe** - Read-only metadata viewer with no file modifications
 - 🌐 **Cross-Platform** - Works on macOS, Windows, and Linux
@@ -135,8 +136,14 @@ eagle-anki-metadata/
 │   │   ├── sql-wasm.js        # SQLite WASM loader
 │   │   ├── sql-wasm.wasm      # SQLite WASM binary
 │   │   └── fzstd.min.js       # Zstd decompression
-│   └── styles/
-│       └── inspector.css      # Theme-aware styles
+│   ├── styles/
+│   │   └── inspector.css      # Theme-aware styles
+│   └── _locales/              # Multi-language support
+│       ├── en.json            # English
+│       ├── zh_TW.json         # 繁體中文
+│       ├── zh_CN.json         # 简体中文
+│       ├── ja_JP.json         # 日本語
+│       └── ko_KR.json         # 한국어
 ├── docs/                      # Documentation
 ├── images/                    # Project images
 ├── README.md                  # This file

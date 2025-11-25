@@ -9,7 +9,7 @@
     <div id="app" class="container">
         <div class="loading">
             <div class="spinner"></div>
-            Loading deck metadata...
+            <span id="loading-text">Loading deck metadata...</span>
         </div>
     </div>
 
@@ -23,6 +23,17 @@
         // Global state
         let currentTheme = 'LIGHT';
         let db = null;
+
+        /**
+         * i18n helper function - safely get translation with fallback
+         */
+        function t(key, options) {
+            if (typeof i18next !== 'undefined' && i18next.t) {
+                return i18next.t(key, options);
+            }
+            // Fallback for English if i18next not loaded
+            return key.split('.').pop();
+        }
 
         /**
          * Apply theme to body element
@@ -77,6 +88,18 @@
         }
 
         /**
+         * Get pluralized text for note types
+         */
+        function pluralize(count, singular, plural) {
+            // For CJK languages, singular and plural are usually the same
+            const lang = eagle.app.locale || 'en';
+            if (lang.startsWith('zh') || lang.startsWith('ja') || lang.startsWith('ko')) {
+                return singular;
+            }
+            return count === 1 ? singular : plural;
+        }
+
+        /**
          * Render metadata UI - Eagle-native style
          */
         function renderMetadata(metadata, item) {
@@ -85,7 +108,7 @@
             // Check for large file
             if (item.size > 100 * 1024 * 1024) { // 100MB
                 const sizeMB = (item.size / (1024 * 1024)).toFixed(1);
-                showWarning(`Large deck file (${sizeMB}MB). Parsing may be slow.`);
+                showWarning(t('warning.largeFile', { size: sizeMB }));
             }
 
             // Format display name (remove extension)
@@ -95,7 +118,7 @@
             let html = `
                 <div class="header">
                     <div class="header-title">${displayName}</div>
-                    <div class="header-subtitle">${AnkiParser.formatFileSize(item.size)} • Schema v${metadata.schema} • ${AnkiParser.formatDate(metadata.modified)}</div>
+                    <div class="header-subtitle">${AnkiParser.formatFileSize(item.size)} • ${t('header.schema')} v${metadata.schema} • ${AnkiParser.formatDate(metadata.modified)}</div>
                 </div>
             `;
 
@@ -104,7 +127,7 @@
                 html += `
                     <div class="section" id="section-decks">
                         <div class="section-header" onclick="toggleSection('decks')">
-                            <span class="section-title">Deck Summary</span>
+                            <span class="section-title">${t('section.deckSummary')}</span>
                             <span class="section-chevron">▾</span>
                         </div>
                         <div class="section-content">
@@ -115,23 +138,23 @@
                         <div class="deck-item">
                             <div class="deck-header">
                                 <span class="deck-name">${deck.name}</span>
-                                ${deck.isDynamic ? '<span class="deck-badge">Dynamic</span>' : ''}
+                                ${deck.isDynamic ? `<span class="deck-badge">${t('deck.dynamic')}</span>` : ''}
                             </div>
                             ${deck.description ? `<div class="deck-description">${deck.description}</div>` : ''}
                             <div class="property-row indented">
-                                <span class="property-label">New</span>
+                                <span class="property-label">${t('deck.new')}</span>
                                 <span class="property-value new">${deck.newCards.toLocaleString()}</span>
                             </div>
                             <div class="property-row indented">
-                                <span class="property-label">Learning</span>
+                                <span class="property-label">${t('deck.learning')}</span>
                                 <span class="property-value learning">${deck.learningCards.toLocaleString()}</span>
                             </div>
                             <div class="property-row indented">
-                                <span class="property-label">Review</span>
+                                <span class="property-label">${t('deck.review')}</span>
                                 <span class="property-value review">${deck.reviewCards.toLocaleString()}</span>
                             </div>
                             <div class="property-row indented">
-                                <span class="property-label">Total</span>
+                                <span class="property-label">${t('deck.total')}</span>
                                 <span class="property-value">${deck.totalCards.toLocaleString()}</span>
                             </div>
                         </div>
@@ -149,20 +172,24 @@
                 html += `
                     <div class="section" id="section-models">
                         <div class="section-header" onclick="toggleSection('models')">
-                            <span class="section-title">Note Types</span>
+                            <span class="section-title">${t('section.noteTypes')}</span>
                             <span class="section-chevron">▾</span>
                         </div>
                         <div class="section-content">
                 `;
 
                 metadata.models.forEach(model => {
+                    const noteText = pluralize(model.noteCount, t('noteType.note'), t('noteType.notes'));
+                    const fieldText = pluralize(model.fieldCount, t('noteType.field'), t('noteType.fields'));
+                    const templateText = pluralize(model.templateCount, t('noteType.template'), t('noteType.templates'));
+
                     html += `
                         <div class="note-type-item">
                             <div class="note-type-header">
                                 <span class="note-type-name">${model.name}</span>
-                                <span class="note-type-count">${model.noteCount} note${model.noteCount !== 1 ? 's' : ''}</span>
+                                <span class="note-type-count">${model.noteCount} ${noteText}</span>
                             </div>
-                            <div class="note-type-info">${model.fieldCount} field${model.fieldCount !== 1 ? 's' : ''} • ${model.templateCount} template${model.templateCount !== 1 ? 's' : ''}</div>
+                            <div class="note-type-info">${model.fieldCount} ${fieldText} • ${model.templateCount} ${templateText}</div>
                         </div>
                     `;
                 });
@@ -182,7 +209,7 @@
                 html += `
                     <div class="section" id="section-tags">
                         <div class="section-header" onclick="toggleSection('tags')">
-                            <span class="section-title">Tags</span>
+                            <span class="section-title">${t('section.tags')}</span>
                             <span class="section-chevron">▾</span>
                         </div>
                         <div class="section-content">
@@ -194,7 +221,7 @@
                 });
 
                 if (remainingCount > 0) {
-                    html += `<span class="tags-more"> and ${remainingCount} more</span>`;
+                    html += `<span class="tags-more">${t('tags.andMore', { count: remainingCount })}</span>`;
                 }
 
                 html += `
@@ -210,42 +237,42 @@
                 html += `
                     <div class="section" id="section-stats">
                         <div class="section-header" onclick="toggleSection('stats')">
-                            <span class="section-title">Statistics</span>
+                            <span class="section-title">${t('section.statistics')}</span>
                             <span class="section-chevron">▾</span>
                         </div>
                         <div class="section-content">
                             <div class="property-row">
-                                <span class="property-label">Total Notes</span>
+                                <span class="property-label">${t('stats.totalNotes')}</span>
                                 <span class="property-value">${stats.totalNotes.toLocaleString()}</span>
                             </div>
                             <div class="property-row">
-                                <span class="property-label">Total Cards</span>
+                                <span class="property-label">${t('stats.totalCards')}</span>
                                 <span class="property-value">${stats.totalCards.toLocaleString()}</span>
                             </div>
                             <div class="property-row">
-                                <span class="property-label">Created</span>
+                                <span class="property-label">${t('stats.created')}</span>
                                 <span class="property-value">${AnkiParser.formatDate(metadata.created)}</span>
                             </div>
                             ${stats.averageEase ? `
                             <div class="property-row">
-                                <span class="property-label">Avg. Ease</span>
+                                <span class="property-label">${t('stats.avgEase')}</span>
                                 <span class="property-value">${stats.averageEase}%</span>
                             </div>
                             ` : ''}
                             <div class="property-row">
-                                <span class="property-label">New Cards</span>
+                                <span class="property-label">${t('stats.newCards')}</span>
                                 <span class="property-value new">${stats.cardDistribution.new.toLocaleString()}</span>
                             </div>
                             <div class="property-row">
-                                <span class="property-label">Learning</span>
+                                <span class="property-label">${t('stats.learning')}</span>
                                 <span class="property-value learning">${stats.cardDistribution.learning.toLocaleString()}</span>
                             </div>
                             <div class="property-row">
-                                <span class="property-label">Review</span>
+                                <span class="property-label">${t('stats.review')}</span>
                                 <span class="property-value review">${stats.cardDistribution.review.toLocaleString()}</span>
                             </div>
                             <div class="property-row">
-                                <span class="property-label">Relearning</span>
+                                <span class="property-label">${t('stats.relearning')}</span>
                                 <span class="property-value">${stats.cardDistribution.relearning.toLocaleString()}</span>
                             </div>
                         </div>
@@ -392,6 +419,12 @@
          */
         eagle.onPluginCreate(async (plugin) => {
             try {
+                // Update loading text with i18n
+                const loadingText = document.getElementById('loading-text');
+                if (loadingText) {
+                    loadingText.textContent = t('loading.text');
+                }
+
                 // Get current theme
                 const theme = await eagle.app.theme;
                 applyTheme(theme);
@@ -400,7 +433,7 @@
                 const items = await eagle.item.getSelected();
 
                 if (!items || items.length === 0) {
-                    showError('No File Selected', 'Please select an .apkg file to view metadata.');
+                    showError(t('error.noFileSelected'), t('error.noFileSelectedMsg'));
                     return;
                 }
 
@@ -410,9 +443,9 @@
                 // Validate file extension
                 if (item.ext !== 'apkg') {
                     showError(
-                        'Invalid File Type',
-                        `Selected file is not a valid Anki deck file (.apkg).`,
-                        `File extension: .${item.ext}`
+                        t('error.invalidFileType'),
+                        t('error.invalidFileTypeMsg'),
+                        `${t('error.fileExtension')}: .${item.ext}`
                     );
                     return;
                 }
@@ -437,9 +470,9 @@
 
                 // Always show detailed error for debugging
                 showError(
-                    'Error Parsing Deck',
-                    error.message || 'An unknown error occurred while parsing the deck.',
-                    'Check Developer Tools console (Ctrl+Shift+I or Cmd+Opt+I) for details.'
+                    t('error.errorParsingDeck'),
+                    error.message || t('error.unknownError'),
+                    t('error.checkConsole')
                 );
             }
         });
